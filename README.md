@@ -32,5 +32,5 @@ Coleção de landing pages responsivas feitas por mim para o Cruzeiro Esporte Cl
 
 ## Licença
 
-Projetado e desenvolvido por Marco Túlio Paiva Repoles para Cruzeiro Esporte Clube - SAF.
+&copy;Projetado e desenvolvido por Marco Túlio Paiva Repoles para Cruzeiro Esporte Clube - SAF.
 
