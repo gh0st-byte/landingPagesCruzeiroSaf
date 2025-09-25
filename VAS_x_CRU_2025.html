@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia do Jogo - Cruzeiro x Fluminense</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rafaelcastrocouto/tusk-font@master/tusk.css">
+    <style>
+        /* Tusk font-face (garante fallback caso CDN falhe) */
+        @font-face {
+            font-family: 'Tusk';
+            src: url('https://cdn.jsdelivr.net/gh/rafaelcastrocouto/tusk-font@master/fonts/Tusk-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cor-primaria: #0a1a4f;
+            --cor-secundaria: #142a7a;
+            --cor-destaque: #ffc700;
+            --cor-texto: #fff;
+            --cor-texto-secundario: #b6c6f5;
+            --espacamento-secao: 2rem;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Outfit', Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, var(--cor-primaria) 0%, var(--cor-secundaria) 100%);
+            color: var(--cor-texto);
+            min-height: 100vh;
+            width: 100%;
+            overflow-x: hidden;
+            position: relative;
+            transition: background 0.5s;
+        }
+
+        /* Garantindo que todos os elementos usem a fonte Outfit */
+        .versus,
+        .comprar-ingressos,
+        .estatisticas-confronto .jogos,
+        .estatisticas-confronto .numero,
+        .rodape,
+        copyright {
+            font-family: 'Outfit', Arial, Helvetica, sans-serif;
+        }
+
+        /* Fundo com imagem animada */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: url('https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/c814e061-5ce7-4be1-a7fa-014486876e07.png');
+            /* Insira a URL da sua imagem aqui */
+            background-repeat: repeat;
+            /* Para repetir a imagem como padrão */
+            opacity: 0.5;
+            animation: bgmove 12s linear infinite;
+            background-size: 1000px 1000px; /* Adjusted size to zoom out */
+        }
+
+        @keyframes bgmove {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 200px 200px;
+            }
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        /* Topo com imagem dos jogadores */
+        .topo {
+            position: relative;
+            width: 100%;
+            background: linear-gradient(180deg, var(--cor-primaria) 40%, rgba(20, 42, 122, 0.6) 100%);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border-radius: 0 0 32px 32px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .topo .capaTopo {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(to top,
+                    rgba(10, 26, 79, 0) 10%,
+                    rgba(20, 42, 122, 0.03) 100%);
+        }
+
+        .capaTopo {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            z-index: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .capaTopo::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            /* altura do degradê */
+            background: linear-gradient(to top,
+                    rgba(10, 26, 79, 1) 0%,
+                    /* azul escuro opaco no fundo */
+                    rgba(10, 26, 79, 0.6) 40%,
+                    /* suavizando */
+                    rgba(10, 26, 79, 0.0) 100%
+                    /* totalmente transparente no topo */
+                );
+            z-index: 1;
+            pointer-events: none;
+        }
+
+
+        .img-jogadores {
+            width: 100%;
+            height: auto;
+            min-height: 200px;
+            max-height: 340px;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.92) contrast(1.12) saturate(1.1);
+            transition: filter 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .campeonato-img {
+            max-width: 300px;
+            height: auto;
+            margin: 0 auto 1rem;
+            display: block;
+        }
+
+        .tituloAbsoluto {
+            text-align: center;
+            margin-top: 0;
+            padding-top: 24px;
+            border-radius: 0 0 32px 32px;
+        }
+
+        .guia-titulo {
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            max-height: 80px;
+        }
+
+        .rodada {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .rodada span {
+            background: linear-gradient(90deg, #1e3fa3 60%, var(--cor-secundaria) 100%);
+            color: var(--cor-texto);
+            font-weight: 700;
+            font-size: 1.15rem;
+            padding: 6px 22px;
+            border-radius: 12px;
+            letter-spacing: 0.14em;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .escudos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .escudo {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .escudo:hover {
+            transform: scale(1.08);
+        }
+
+        .versus {
+            font-size: 3rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.95);
+            opacity: 0.9;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-ingressos {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            margin: 1.5rem 0;
+            padding: 0 1rem;
+        }
+
+        .comprar-ingressos {
+            background: linear-gradient(90deg, var(--cor-destaque) 60%, #ffe066 100%);
+            color: var(--cor-primaria);
+            font-weight: 900;
+            font-size: 1.18rem;
+            margin-bottom: 0;
+            padding: 12px 40px;
+            border-radius: 10px;
+            text-decoration: none;
+            box-shadow: 0 4px 16px rgba(255, 199, 0, 0.27);
+            letter-spacing: 0.10em;
+            border: none;
+            transition: all 0.3s ease;
+            outline: none;
+            cursor: pointer;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        .comprar-ingressos:hover,
+        .comprar-ingressos:focus {
+            background: linear-gradient(90deg, #ffe066 60%, var(--cor-destaque) 100%);
+            box-shadow: 0 8px 32px rgba(255, 199, 0, 0.5);
+            transform: scale(1.04);
+        }
+
+        .btn-brahma {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+
+        }
+
+        .btn-brahma:hover {
+            transform: scale(1.04);
+            
+        }
+
+        .info-jogo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 900px;
+            margin: 1rem auto;
+            flex-wrap: wrap;
+            border-radius: 18px;
+            padding: 1rem;
+            gap: 1rem;
+        }
+
+        .data-local,
+        .horario-estadio {
+            flex: 1;
+            min-width: 250px;
+            font-size: 1.18rem;
+            font-weight: 600;
+            color: var(--cor-texto);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+.icone-estadio {
+    width: 120px; /* Reduced from 180px to make it significantly smaller */
+    max-width: 100%;
+    margin: 5px auto;
+    object-fit: contain;
+    transition: transform 0.2s;
+    display: block;
+}
+        .icone-estadio:hover {
+            transform: scale(1.12) rotate(6deg);
+        }
+
+        /* Estatísticas */
+        .estatisticas {
+            margin: 3.5rem auto 0;
+            max-width: 900px;
+            padding: 0 1.5rem;
+        }
+
+        .secao-titulo {
+            background: linear-gradient(90deg, #1e3fa3 60%, var(--cor-secundaria) 100%);
+            color: #ffffff (--cor-destaque);
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-align: center;
+            padding: 14px 0;
+            border-radius: 12px 12px 0 0;
+            letter-spacing: 0.10em;
+            margin-bottom: 0;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* New styles for the comparison stats */
+        .estatisticas-confronto {
+            background: rgba(20, 42, 122, 0.85);
+            border-radius: 0 0 18px 18px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2.5rem;
+        }
+
+        .stats-comparison {
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .stat-item:last-child {
+            margin-bottom: 0.5rem;
+        }
+
+        .team-a-stat,
+        .team-b-stat {
+            width: 75px;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #fff;
+        }
+
+        .team-a-stat {
+            text-align: right;
+            padding-right: 15px;
+        }
+
+        .team-b-stat {
+            text-align: left;
+            padding-left: 15px;
+        }
+
+        .stat-bar-container {
+            position: relative;
+            height: 20px;
+            width: 60%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.15);
+            /* More transparent background */
+            overflow: visible;
+        }
+
+        .stat-bar {
+            position: absolute;
+            height: 100%;
+            top: 0;
+        }
+
+        .center-line {
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            background-color: #aaa;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .team-a-bar {
+            right: 50%;
+            background-color: #003399;
+            /* Blue for Cruzeiro */
+            max-width: 50%;
+            opacity: 1;
+            /* Full opacity for filled bar */
+        }
+
+        .team-b-bar {
+            left: 50%;
+            background-color: #ffffff;
+            /* White for Fluminense */
+            max-width: 50%;
+            opacity: 0.9;
+            /* Slightly less opacity to distinguish */
+        }
+
+        .stat-title {
+            position: absolute;
+            top: -25px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: var(--cor-destaque);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Seção Patrocínio */
+        .patrocinio {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            text-align: center;
+        }
+        
+        .brahma-cabuloso {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(255, 199, 0, 0.6);
+            border: 3px solid transparent;
+            background: linear-gradient(white, white) padding-box, 
+                       linear-gradient(45deg, #ffc700, #ffe066, #ffc700) border-box;
+            animation: borderGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes borderGlow {
+            0% {
+                box-shadow: 0 0 30px rgba(255, 199, 0, 0.6), 0 0 60px rgba(255, 199, 0, 0.4);
+            }
+            100% {
+                box-shadow: 0 0 40px rgba(255, 199, 0, 0.8), 0 0 80px rgba(255, 199, 0, 0.6);
+            }
+        }
+        
+        .brahma-cabuloso:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 50px rgba(255, 199, 0, 0.9), 0 0 100px rgba(255, 199, 0, 0.7);
+        }
+
+
+
+        .teams-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            align-items: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .jogos-container {
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 30%;
+        }
+
+        .team-left {
+            text-align: center;
+        }
+
+        .team-right {
+            text-align: center;
+        }
+
+        .team-logo {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin: 0 auto 8px;
+            display: block;
+        }
+
+        .team-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #fff;
+            text-align: center;
+            display: block;
+            width: 100%;
+        }
+
+        .simple-stat {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .jogos-container {
+            text-align: center;
+        }
+
+        .jogos-titulo {
+            font-size: 1rem;
+            color: var(--cor-destaque);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .jogos-numero {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        /* Histórico */
+
+        .historico {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .historico-jogo {
+            display: flex;
+            flex-direction: column;
+            background: rgba(20, 42, 122, 0.85);
+            border-radius: 24px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+            margin: 2rem 0;
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+
+        .foto-historica {
+            width: 100%;
+            padding: 1.5rem;
+            background: var(--cor-primaria);
+            border-radius: 0 0 24px 24px;
+        }
+
+        .foto-historica img {
+            width: 100%;
+            border-radius: 16px;
+            object-fit: cover;
+            transition: transform 0.2s;
+            height: 100%;
+        }
+
+        .detalhes-jogo {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1; /* This makes it take remaining space */
+    width: 100%; /* Ensure full width on mobile */
+}
+
+       .titulo-historico {
+    text-align: center;
+    width: 100%;
+}
+
+.titulo-historico .titulo {
+    font-size: 2rem; /* Reduced from 3rem */
+    font-weight: bold;
+    display: block;
+}
+
+.titulo-historico .data {
+    font-size: 1.7rem;
+    color: var(--cor-texto-secundario);
+    margin-bottom: 0.5rem;
+}
+
+        .placar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: var(--cor-destaque);
+        }
+
+        .divisoria {
+            width: 2px;
+            height: 32px;
+            background-color: var(--cor-texto);
+            opacity: 0.5;
+        }
+
+        .escudo-mini {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .escalacoes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .time {
+            flex: 1 1 180px;
+            background: rgba(10, 26, 79, 0.85);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .time strong {
+            font-size: 1.3rem;
+            color: var(--cor-destaque);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .time ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: var(--cor-texto);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .tecnico {
+            display: block;
+            margin-top: 1rem;
+            font-style: italic;
+            font-weight: 600;
+            color: var(--cor-texto-secundario);
+            font-size: 0.95rem;
+        }
+
+        /* Curiosidades */
+        .curiosidades {
+            max-width: 900px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .curiosidades p {
+            background: rgba(20, 42, 122, 0.85);
+            color: var(--cor-texto);
+            font-size: 1.12rem;
+            padding: 1.5rem;
+            border-radius: 0 0 18px 18px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
+        .curiosidades strong {
+            color: var(--cor-destaque);
+            font-weight: 900;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Rodapé */
+        .rodape {
+            width: 100%;
+            text-align: center;
+            padding: 1.5rem 1rem;
+            margin-top: 2.5rem;
+            position: relative;
+            background: linear-gradient(90deg, var(--cor-secundaria) 60%, #1e3fa3 100%);
+            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #footer-logo {
+            max-width: 80px;
+            height: auto;
+        }
+
+        /* Hide the central line in stats */
+        .linha-central {
+            display: none;
+        }
+
+        /* Media queries para responsividade */
+        @media (min-width: 768px) {
+            .btn-ingressos {
+                flex-direction: row;
+                gap: 1.5rem;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .comprar-ingressos {
+                max-width: 250px;
+                font-size: 1.1rem;
+            }
+            
+            .btn-brahma {
+                max-width: 250px;
+            }
+            
+            .historico-jogo {
+                flex-direction: row;
+            }
+
+            .foto-historica {
+                max-width: 320px;
+                border-radius: 0 24px 24px 0;
+            }
+
+            .titulo-historico .placar {
+                font-size: 4rem;
+            }
+
+            .escudo-mini {
+                width: 55px;
+                height: 55px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            :root {
+                font-size: 14px;
+            }
+            
+            .btn-ingressos {
+                gap: 0.8rem;
+                margin: 1rem 0;
+                padding: 0 0.5rem;
+            }
+            
+            .patrocinio-conteudo {
+                padding: 1.5rem 1rem;
+            }
+            
+            .brahma-cabuloso {
+                max-width: 100%;
+            }
+            
+            .brahma-cabuloso::before {
+                animation-duration: 2.5s;
+            }
+            
+            .patrocinio-texto {
+                font-size: 1rem;
+            }
+
+            .campeonato-img {
+                max-width: 240px;
+            }
+
+            .guia-titulo {
+                max-height: 60px;
+            }
+
+            .escudos {
+                gap: 1rem;
+            }
+
+            .escudo {
+                width: 50px;
+                height: 50px;
+            }
+
+            .versus {
+                font-size: 2rem;
+            }
+
+            .comprar-ingressos {
+                font-size: 1rem;
+                padding: 10px 24px;
+                max-width: 280px;
+            }
+            
+            .btn-brahma {
+                max-width: 280px;
+            }
+
+            .info-jogo {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .data-local,
+            .horario-estadio {
+                font-size: 1rem;
+                align-items: center;
+            }
+
+            .icone-estadio {
+    width: 120px;
+    margin: 5px auto; /* Added this line to center it */
+}
+
+            .stat-bar-container {
+                width: 80%;
+            }
+
+            .team-a-stat,
+            .team-b-stat {
+                font-size: 1.4rem;
+                width: 55px;
+            }
+
+            .team-logo {
+                width: 45px;
+                height: 45px;
+            }
+        }
+		
+
+        @media (min-width: 1024px) {
+            :root {
+                font-size: 16px;
+            }
+            
+            .btn-ingressos {
+                gap: 2rem;
+            }
+            
+            .comprar-ingressos {
+                max-width: 280px;
+                font-size: 1.18rem;
+                padding: 12px 40px;
+            }
+            
+            .btn-brahma {
+                max-width: 280px;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            :root {
+                font-size: 18px;
+            }
+        }
+
+        .item-estatistica {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .estatistica-time-a,
+        .estatistica-time-b {
+            width: 40px;
+            text-align: center;
+            font-weight: bold;
+			font-size: 22px; /* Added larger font size */
+    color: #ffffff; /* Optional: ensure good contrast */
+        }
+
+        .container-barra {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .titulo-estatistica {
+    font-size: 16px;  /* Increased from 14px */
+    font-weight: 700; /* Made slightly bolder */
+    margin-bottom: 10px; /* Increased from 4px to create more space */
+    text-transform: uppercase; /* Optional: makes text all caps for emphasis */
+    letter-spacing: 0.05em; /* Optional: adds slight letter spacing */
+}
+
+        .barras-estatisticas {
+            display: flex;
+            height: 20px;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .barra {
+            height: 100%;
+        }
+
+        .barra-time-a {
+            background-color: #007bff;
+            /* azul */
+        }
+
+        .barra-time-b {
+            background-color: #ffffff;
+            /* vermelho */
+        }
+
+        .escudos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .barra-divisoria {
+            width: 2px;
+            height: 70px;
+            background-color: #ffffff;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="topo container">
+        <header class="capaTopo">
+          <img src="https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/0b425a7f-8c5f-406f-92ee-114465341c9a.png" alt="Jogadores do Cruzeiro"
+                class="img-jogadores" loading="eager">
+        </header>
+
+        <div class="tituloAbsoluto">
+            <!-- Placeholder image for the campeonato title -->
+            <img id="campeonato-logo" alt="Copa do Brasil" src="https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/1b2365b5-1257-4a40-b53a-b9a91fbf5afd.png" class="campeonato-img" width="300" height="auto">
+            
+            <!-- Existing Guia do Jogo image -->
+            <img class="guia-titulo"
+                src="https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/f4e385b0-9102-4261-9ac5-88bc19d88ec2.png"
+                alt="Guia do Jogo" width="640">
+        </div>
+        <div class="rodada">
+            <span>25ª RODADA<br>
+            </span>
+        </div>
+
+        <div class="escudos">
+          <img src="https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/b0138611-f20f-42a3-8373-a023062e607a.png"
+                alt="Vasco" class="escudo" width="70" height="70">
+
+            <span class="versus">
+            <div class="barra-divisoria"></div>
+            </span>
+
+          <img src="https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/1a619f2e-4cbe-4a07-a2d7-d32c26a5ea6d.png"
+                alt="Cruzeiro" class="escudo" width="70" height="70">
+        </div>
+        <div class="btn-ingressos">
+            <a href="https://www.ze.delivery/?gad_source=1&gad_campaignid=23028925119&gbraid=0AAAAADfux6bfg6r7lBqu0nNo4inpFuZ0X" target="_blank" rel="noopener noreferrer">
+                <img src="https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/5a6eb790-00d0-4af6-9ea3-616401899d26.png" class="btn-brahma" alt="Patrocine o Cabuloso">
+            </a>
+        </div>
+
+		
+      <div class="info-jogo">
+            <div class="data-local">
+                <span>27 DE SETEMBRO DE 2025</span>
+                <span>RIO DE JANEIRO (RJ)</span>
+            </div>
+
+            <div class="horario-estadio">
+              <p> <span>SÁBADO, 19h30<br>
+                </span> </p>
+                <p><span>SÃO JANUÁRIO
+              </span></p>
+          </div>
+
+          <img src="https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/ca9c5947-82e2-4248-932d-5234cc3ea228.png"
+                alt="Estádio" class="icone-estadio" width="180">
+        </div>
+    </section>
+
+    <section class="estatisticas">
+      <h2 class="secao-titulo">📈 ESTATÍSTICAS DO CONFRONTO</h2>
+
+        <div class="estatisticas-confronto">
+            <div class="stats-comparison">
+                <!-- Teams header -->
+                <div class="teams-header">
+                    <div class="team team-left">
+                        <img src="https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/1a619f2e-4cbe-4a07-a2d7-d32c26a5ea6d.png"
+                            alt="Cruzeiro" class="team-logo">
+                        <span class="team-name">CRUZEIRO</span>
+                    </div>
+                    <div class="jogos-container">
+                        <span class="jogos-titulo">JOGOS</span>
+                        <div class="jogos-numero">108</div>
+                    </div>
+                    <div class="team team-right">
+                      <img src="https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/b0138611-f20f-42a3-8373-a023062e607a.png"
+                            alt="Vasco" class="team-logo">
+                        <span class="team-name">VASCO&nbsp;</span>
+                    </div>
+                </div>
+
+
+                <!-- VITÓRIAS -->
+                <div class="item-estatistica">
+                    <span class="estatistica-time-a">40&nbsp;</span>
+                    <div class="container-barra">
+                      <div class="titulo-estatistica">VITÓRIAS</div>
+                        <!-- Removed the linha-central div -->
+                        <div class="barras-estatisticas">
+                          <div class="barra barra-time-a" style="flex: 40;"></div>
+                          <div class="barra barra-time-b" style="flex: 33;"></div>
+                        </div>
+                    </div>
+                    <span class="estatistica-time-b">33</span>
+                </div>
+
+                <!-- GOLS MARCADOS -->
+                <div class="item-estatistica">
+                    <span class="estatistica-time-a">158</span>
+                    <div class="container-barra">
+                      <div class="titulo-estatistica">GOLS MARCADOS</div>
+                        <!-- Removed the linha-central div -->
+                        <div class="barras-estatisticas">
+                          <div class="barra barra-time-a" style="flex: 158;"></div>
+                          <div class="barra barra-time-b" style="flex: 133;"></div>
+                        </div>
+                  </div>
+                    <span class="estatistica-time-b">133</span>
+              </div>
+
+
+
+
+            </div>
+        </div>
+    </section>
+    <section class="patrocinio">
+        <a href="https://www.ze.delivery/?gad_source=1&gad_campaignid=23028925119&gbraid=0AAAAADfux6bfg6r7lBqu0nNo4inpFuZ0X">
+            <img src="https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/420d09e0-23b1-496f-8ab6-55eedd4626dc.png" 
+                alt="Brahma - Patrocinador Oficial do Cruzeiro" 
+                class="brahma-cabuloso">
+        </a>
+    </section>
+
+    <section class="historico">
+        <div class="historico-jogo">
+            <div class="foto-historica">
+                <img src="https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/965d79ac-9f8c-458e-9ba8-b210c964c3e6.png"
+                    alt="Cruzeiro 1x0 Vasco - último jogo" loading="lazy">
+            </div>
+            <div class="detalhes-jogo">
+                <div class="titulo-historico">
+                    <span class="titulo">JOGO HISTÓRICO</span>
+                    <span class="data">27/04/2025</span>
+					        <span style="font-size: 0.9rem; color: var(--cor-texto-secundario); margin-bottom: 0.5rem; display: block;">PARQUE DO SABIÁ</span>
+                    <div class="placar">
+                        <img src="https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/1a619f2e-4cbe-4a07-a2d7-d32c26a5ea6d.png"
+                            class="escudo-mini" alt="Cruzeiro">
+                        <span class="gols">1&nbsp;</span>
+                      <div class="divisoria"></div>
+                        <span class="gols">0&nbsp;</span>
+                        <img src="https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/b0138611-f20f-42a3-8373-a023062e607a.png"
+                            class="escudo-mini" alt="Vasco">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="escalacoes">
+        <div class="time">
+            <strong>CRUZEIRO</strong>
+            <ul>
+              <li>01 - Cássio</li>
+                <li>23 - Fagner (32 - Janderson)</li>
+				<li>34 - Jonathan Jesus</li>
+				<li>25 - Lucas Villalba</li>
+                <li>06 - Kaiki</li>
+                <li>29 - Lucas Romero</li>
+                <li>16 - Lucas Silva</li>
+                <li>88 - Christian ⚽</li>
+                <li>10 - Matheus Pereira (21 - Eduardo)</li>
+                <li>94 - Wanderson (17 - Marquinhos)</li>
+                <li>19 - Kaio Jorge (11 - Bolasie)</li>
+
+          </ul>
+            <span class="tecnico">Tec. Leonardo Jardim</span>
+        </div>
+        <div class="time">
+            <strong>VASCO</strong>
+            <ul>
+              <li>01 - Léo Jardim</li>
+                <li>96 - Paulo Henrique (02 - Puma Rodríguez)</li>
+                <li>38 - João Victor</li>
+                <li>43 - Lucas freitas (90 - Alex Teixeira)</li>
+				<li>12 - Victor Luís</li>
+                <li>25 - Hugo Moura</li>
+                <li>08 - Jair (18 - Paulinho)</li>
+                <li>17 - Nuno Moreira (45 - Loide Augusto)</li>
+				<li>11 - Philipe Coutinho</li>
+                <li>99 - Vegetti</li>
+                <li>77 - Rayan (15 - Garré)</li>
+             
+            </ul>
+            <span class="tecnico">Tec. Fábio Carille</span>
+        </div>
+    </section>
+
+    <section class="curiosidades">
+        <h2 class="secao-titulo">🔎 CURIOSIDADES</h2>
+        <p>
+            <strong>LANÇAMENTO LONGE DE CASA</strong><br><br>
+      O jogo vai marcar a estreia da camisa 3 do Cruzeiro. Na primeira vez que o Cruzeiro estreou uma camisa 3 fora de casa,&nbsp;a equipe celeste acabou vencendo o Coritiba por 2 a 0, em jogo válido pela final da Copa Sul Minas de 2001. Curiosamente, todos os uniformes da temporada 2025 foram estreados longe de casa. A camisa azul foi utilizada pela primeira vez em março, no amistoso contra o Red Bull Bragantino, no Nabi Abi Chedid. Já a camisa branca entrou em campo pela primeira vez contra o Vitória, no Barradão, em jogo válido pela 12ª rodada do Campeonato Brasileiro.</p>
+    </section>
+
+    <footer class="rodape">
+        <img id="footer-logo" alt="Logo Cruzeiro" src="https://image.crm.cruzeiro.com.br/lib/fe34117371640478741c71/m/1/1a619f2e-4cbe-4a07-a2d7-d32c26a5ea6d.png" width="50" height="auto">
+    </footer>
+</body>
+
+</html>
